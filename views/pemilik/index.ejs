@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemilik List</title>
+</head>
+<body>
+    <h1>Pemilik List</h1>
+    <a href="/pemilik/create">Add New Pemilik</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama Pemilik</th>
+                <th>Alamat</th>
+                <th>No HP</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(function(pemilik) { %>
+                <tr>
+                    <td><%= pemilik.id_pemilik %></td>
+                    <td><%= pemilik.nama_pemilik %></td>
+                    <td><%= pemilik.alamat %></td>
+                    <td><%= pemilik.no_hp %></td>
+                    <td>
+                        <a href="/pemilik/edit/<%= pemilik.id_pemilik %>">Edit</a>
+                        <a href="/pemilik/delete/<%= pemilik.id_pemilik %>" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

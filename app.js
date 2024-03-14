@@ -11,6 +11,8 @@ const usersRouter = require('./routes/users');
 const mahasiswaRouter = require('./routes/mahasiswa');
 const keahlianRouter = require('./routes/keahlian');
 const pendidikanRouter = require('./routes/pendidikan');
+const pemilikRouter = require ('./routes/pemilik');
+const alatTangkapRouter = require('./routes/alat_tangkap'); 
 
 const app = express();
 
@@ -43,6 +45,8 @@ app.use('/users', usersRouter);
 app.use('/mahasiswa', mahasiswaRouter);
 app.use('/keahlian', keahlianRouter);
 app.use('/pendidikan', pendidikanRouter);
+app.use('/pemilik',pemilikRouter);
+app.use('/alat_tangkap', alatTangkapRouter); 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
