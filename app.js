@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const flash = require('express-flash');
 const session = require('express-session');
+const MemoryStore = require('session-memory-store')(session);
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -12,7 +14,9 @@ const mahasiswaRouter = require('./routes/mahasiswa');
 const keahlianRouter = require('./routes/keahlian');
 const pendidikanRouter = require('./routes/pendidikan');
 const pemilikRouter = require ('./routes/pemilik');
-const alatTangkapRouter = require('./routes/alat_tangkap'); 
+const alatTangkapRouter = require('./routes/alat'); 
+const dpiRouter = require('./routes/dpi'); 
+const kapalRouter = require('./routes/kapal'); 
 
 const app = express();
 
@@ -26,17 +30,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(
-  session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 60000,
-    },
-    store: new session.MemoryStore(),
-  })
-);
+app.use(session({
+  cookie: {
+      maxAge: 60000000000,
+      secure: false,
+      httpOnly: true,
+      sameSite: 'strict',
+      // domain: 'domainkkitananti.com',
+  },
+  store: new MemoryStore(),
+  saveUninitialized: true,
+  resave: false,
+  secret: 'secret'
+}));
+
 
 app.use(flash());
 
@@ -46,7 +53,9 @@ app.use('/mahasiswa', mahasiswaRouter);
 app.use('/keahlian', keahlianRouter);
 app.use('/pendidikan', pendidikanRouter);
 app.use('/pemilik',pemilikRouter);
-app.use('/alat_tangkap', alatTangkapRouter); 
+app.use('/alat', alatTangkapRouter); 
+app.use('/dpi', dpiRouter); 
+app.use('/kapal', kapalRouter); 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
