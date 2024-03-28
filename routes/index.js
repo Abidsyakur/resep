@@ -35,6 +35,7 @@ router.post("/saveusers", async (req, res) => {
     const Data = {
       email: email,
       password: enkripsi,
+      level_users: 2
     };
     await Model_Users.Store(Data);
     req.flash("success", "Berhasil Login");
@@ -45,30 +46,42 @@ router.post("/saveusers", async (req, res) => {
   }
 });
 
-router.post("/log", async (req, res) => {
+router.post('/log', async (req, res) => {
   try {
-    let { email, password } = req.body;
+    const { email, password } = req.body;
     let Data = await Model_Users.Login(email);
+    
     if (Data.length > 0) {
       let enkripsi = Data[0].password;
       let cek = await bcrypt.compare(password, enkripsi);
+      
       if (cek) {
         req.session.userId = Data[0].id_users;
-        req.flash("success", "Berhasil login");
-        res.redirect("/");
+        // Tambahkan kondisi pengecekan level pada user yang login
+        if (Data[0].level_users == 1) {
+          req.flash('success', 'Berhasil login');
+          res.redirect('/superusers');
+        } else if (Data[0].level_users == 2) {
+          req.flash('success', 'Berhasil login');
+          res.redirect('/users');
+        } else {
+          res.redirect('/login');
+        }
+        // Akhir kondisi
       } else {
-        req.flash("error", "Email atau password salah");
+        req.flash('error', 'Email atau password salah');
         res.redirect("/login");
       }
     } else {
-      req.flash("error", "Akun tidak ditemukan");
-      res.redirect("/login");
+      req.flash('error', 'Akun tidak ditemukan');
+      res.redirect('/login');
     }
   } catch (err) {
-    req.flash("error", "Error pada fungsi");
-    res.redirect("/login");
+    req.flash('error', 'Error pada fungsi');
+    res.redirect('/login');
   }
 });
+
 
 router.get("/logout", function (req, res) {
   req.session.destroy(function (err) {
