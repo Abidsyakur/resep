@@ -60,7 +60,7 @@ router.post('/log', async (req, res) => {
         // Tambahkan kondisi pengecekan level pada user yang login
         if (Data[0].level_users == 1) {
           req.flash('success', 'Berhasil login');
-          res.redirect('/superusers');
+          res.redirect('/');
         } else if (Data[0].level_users == 2) {
           req.flash('success', 'Berhasil login');
           res.redirect('/users');
