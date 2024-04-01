@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Favorit</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Edit Favorit</h2>
+        <form action="/favorit/update/<%= id %>" method="POST">
+            <div class="form-group">
+                <label for="id_users">ID Users:</label>
+                <select class="form-control" id="id_users" name="id_users" required>
+                    <!-- Opsi dari database untuk ID Users -->
+                    <% for (var i = 0; i < users.length; i++) { %>
+                        <option value="<%= users[i].id_users %>" <%= users[i].id_users == id_users ? 'selected' : '' %>><%= users[i].email %></option>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="id_resep">ID Resep:</label>
+                <select class="form-control" id="id_resep" name="id_resep" required>
+                    <!-- Opsi dari database untuk ID Resep -->
+                    <% for (var i = 0; i < reseps.length; i++) { %>
+                        <option value="<%= reseps[i].id_resep %>" <%= reseps[i].id_resep == id_resep ? 'selected' : '' %>><%= reseps[i].judul_resep %></option>
+                    <% } %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

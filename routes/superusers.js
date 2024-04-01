@@ -7,7 +7,6 @@ router.get('/', async function (req, res, next) {
   try {
     let id = req.session.userId;
     let Data = await modelUser.getId(id);
-    
     if (Data.length > 0) {
       if (Data[0].level_users != 1) {
         res.redirect('/logout');

@@ -1,13 +1,13 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require("bcrypt");
-var Model_Users = require("../model/modelUser");
+var modelUser = require("../model/modelUser");
 
 /* GET home page. */
 router.get("/", async function (req, res, next) {
   try {
     let id = req.session.userId;
-    let Data = await Model_Users.getId(id);
+    let Data = await modelUser.getId(id);
     if (Data.length > 0) {
       res.render("index", {
         email: Data[0].email,
@@ -37,7 +37,7 @@ router.post("/saveusers", async (req, res) => {
       password: enkripsi,
       level_users: 2
     };
-    await Model_Users.Store(Data);
+    await modelUser.Store(Data);
     req.flash("success", "Berhasil Login");
     res.redirect("/login");
   } catch (error) {
@@ -49,7 +49,7 @@ router.post("/saveusers", async (req, res) => {
 router.post('/log', async (req, res) => {
   try {
     const { email, password } = req.body;
-    let Data = await Model_Users.Login(email);
+    let Data = await modelUser.Login(email);
     
     if (Data.length > 0) {
       let enkripsi = Data[0].password;
