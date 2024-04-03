@@ -2,9 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ModelResep = require('../model/ModelResep'); // Import model ModelResep
 const modelUser = require('../model/modelUser'); // Import model modelUser
-const ModelUserFavorit = require('../model/ModelUserFavorit');
-
-
+const ModelFavorit = require('../model/ModelFavorit');
 
 
 router.get('/', async (req, res, next) => {

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,32 +158,37 @@
 
     <!-- JavaScript untuk menambahkan resep ke favorit -->
     <script>
-       function addToFavorites(resepId) {
-    // Mengambil ID Users dari sesi pengguna
-    var id_users = '1' ; // Gantilah dengan cara yang sesuai untuk mengambil ID Users dari sesi pengguna
+
+
+    function addToFavorites(resepId) {
+        // Mengambil ID Users dari sesi pengguna
+        console.log('ID Resep:', resepId);
+        var id_users = '3';// Gantilah dengan cara yang sesuai untuk mengambil ID Users dari sesi pengguna
+        console.log('ID user:', id_users);
      // Gantilah dengan cara yang sesuai untuk mengambil ID Users dari sesi pengguna
 
     // Kirim permintaan POST ke server untuk menambahkan resep ke favorit
-    fetch('/favorit/store', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id_users: id_users, resepId: resepId }) // Mengirimkan ID Users dan ID Resep
-        })
-        .then(response => {
-            if (response.ok) {
-                // Jika berhasil, tampilkan pesan sukses
-                alert('Recipe added to favorites successfully!');
-            } else {
-                // Jika gagal, tampilkan pesan error
-                alert('Failed to add recipe to favorites.');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            alert('An error occurred while adding recipe to favorites.');
-        });
+    fetch('/userfavorit/store', { // Gunakan path yang sesuai dengan endpoint server Anda
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_users: id_users, resepId: resepId }) // Mengirimkan ID Users dan ID Resep
+    })
+    .then(response => {
+        if (response.ok) {
+            // Jika berhasil, tampilkan pesan sukses
+            alert('Recipe added to favorites successfully!');
+        } else {
+            // Jika gagal, tampilkan pesan error
+            alert('Failed to add recipe to favorites.');
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert('An error occurred while adding recipe to favorites.');
+    });
+
 }
 
     </script>

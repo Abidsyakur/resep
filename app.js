@@ -16,7 +16,6 @@ const resepRouter = require('./routes/resep');
 const userresepRouter = require('./routes/userresep'); 
 const favoritRouter = require('./routes/favorit'); 
 const userfavoritRouter = require('./routes/userfavorit'); 
-const ideresepRouter = require('./routes/ideresep'); 
 
 
 const app = express();
@@ -56,13 +55,19 @@ app.use('/favorit', favoritRouter);
 app.use('/resep', resepRouter); 
 app.use('/userresep', userresepRouter); 
 app.use('/userfavorit', userfavoritRouter); 
-app.use('/ideresep', ideresepRouter); 
 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+// Middleware untuk memberikan data pengguna ke setiap permintaan
+app.use(function(req, res, next) {
+    res.locals.user = req.session.userId; // Misalnya, req.session.userId berisi ID pengguna dari sesi
+    next();
+});
+
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -73,6 +78,12 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// Middleware untuk memberikan data pengguna ke setiap permintaan
+app.use(function(req, res, next) {
+    res.locals.user = req.user; // Misalnya, req.user berisi informasi pengguna dari sesi
+    next();
 });
 
 module.exports = app;

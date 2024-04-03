@@ -6,6 +6,10 @@ const path = require("path");
 const ModelUserResep = require("../model/ModelUserResep");
 const modelUser = require("../model/modelUser");
 
+router.get('/index', function(req, res) {
+    res.render('userresep/index', { user: req.user, data: yourDataArray }); // Mengirim objek user dan data resep ke halaman index.ejs
+});
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images/upload");
@@ -42,12 +46,16 @@ router.get("/create", async function (req, res, next) {
 router.post('/add', async (req, res) => {
     try {
         const { resepId } = req.body;
-        // Lakukan operasi penambahan resep ke daftar favorit di sini
-        // ...
-        res.sendStatus(200); // Kirim respons OK jika berhasil
+        // Panggil method addToFavorites dari ModelUserResep
+        const favoritId = await ModelUserResep.addToFavorites(req.session.userId, resepId);
+        if (favoritId) {
+            res.status(200).json({ success: true, favoritId: favoritId });
+        } else {
+            res.status(500).json({ success: false, message: 'Failed to add to favorites' });
+        }
     } catch (error) {
         console.error(error);
-        res.sendStatus(500); // Kirim respons server error jika terjadi kesalahan
+        res.status(500).json({ success: false, message: 'Failed to add to favorites' });
     }
 });
 

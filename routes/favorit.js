@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const ModelResep = require('../model/ModelResep'); // Import model ModelResep
 const modelUser = require('../model/modelUser'); // Import model modelUser
-const ModelFavorit = require('../model/ModelFavorit');
+const ModelUserFavorit = require('../model/ModelUserFavorit');
 
 
 router.use(async function (req, res, next) {
@@ -51,7 +51,7 @@ router.post('/store', async (req, res) => {
       id_resep: id_resep
     };
 
-    const result = await ModelFavorit.create(favoritData);
+    const result = await ModelUserFavorit.addFavorite(id_users,id_resep);
     if (result) {
       res.sendStatus(200); // Kirim respons sukses
     } else {

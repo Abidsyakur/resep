@@ -15,6 +15,21 @@ class ModelUserFavorit {
       );
     });
   }
+   static async addFavorite(userId, resepId) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO Favorit (id_users, id_resep) VALUES (?, ?)",
+        [userId, resepId],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result.insertId); // Mengembalikan ID favorit yang baru saja ditambahkan
+          }
+        }
+      );
+    });
+  }
 
   static async create(data) {
     return new Promise((resolve, reject) => {
